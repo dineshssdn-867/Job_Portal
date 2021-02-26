@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users',
     'ckeditor',
     'about_us',
+    'happy_blog',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

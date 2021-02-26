@@ -253,53 +253,26 @@
 				<div class="carousel-testimony owl-carousel ftco-owl">
 					<div class="item">
 						<div class="testimony-wrap py-4 pb-5">
-							<div class="user-img mb-4" style="background-image: url(images/person_1.jpg)"> <span class="quote d-flex align-items-center justify-content-center">
+							<div class="user-img mb-4" style="background-image: url({% static 'images/download.jfif' %})"> <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span> </div>
 							<div class="text">
-								<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-								<p class="name">Roger Scott</p> <span class="position">Marketing Manager</span> </div>
+								<p class="mb-4">“If you find our information to be helpful, write a review! Reviews help us to not only improve our products and services but also to let others know that we care about delivering the best quality.”</p>
+								<a href="{% url 'happy_blog:happyblog' %}"><button type="button" class="btn btn-outline-success">Happy Blog</button> </div></a>
 						</div>
 					</div>
+					{% for blog in blogs %}
 					<div class="item">
 						<div class="testimony-wrap py-4 pb-5">
-							<div class="user-img mb-4" style="background-image: url(images/person_2.jpg)"> <span class="quote d-flex align-items-center justify-content-center">
+							<div class="user-img mb-4" style="background-image: url({{ blog.image.url}})"> <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span> </div>
 							<div class="text">
-								<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-								<p class="name">Roger Scott</p> <span class="position">Interface Designer</span> </div>
+								<p class="mb-4">{{ blog.tweet|safe }}</p>
+								<p class="name">{{ blog.name }}</p> <span class="position">{{ blog.job_type }}</span> </div>
 						</div>
 					</div>
-					<div class="item">
-						<div class="testimony-wrap py-4 pb-5">
-							<div class="user-img mb-4" style="background-image: url(images/person_3.jpg)"> <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span> </div>
-							<div class="text">
-								<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-								<p class="name">Roger Scott</p> <span class="position">UI Designer</span> </div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="testimony-wrap py-4 pb-5">
-							<div class="user-img mb-4" style="background-image: url(images/person_1.jpg)"> <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span> </div>
-							<div class="text">
-								<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-								<p class="name">Roger Scott</p> <span class="position">Web Developer</span> </div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="testimony-wrap py-4 pb-5">
-							<div class="user-img mb-4" style="background-image: url(images/person_1.jpg)"> <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span> </div>
-							<div class="text">
-								<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-								<p class="name">Roger Scott</p> <span class="position">System Analyst</span> </div>
-						</div>
+					{% endfor %}
 					</div>
 				</div>
 			</div>

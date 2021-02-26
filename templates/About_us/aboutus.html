@@ -1,160 +1,91 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
-
-      <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-8 ftco-animate text-center text-md-left mb-5" data-scrollax=" properties: { translateY: '70%' }">
-          	<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>About</span></p>
-            <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">About</h1>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <section class="ftco-about d-md-flex">
-    	<div class="one-half img" style="background-image: url(images/about.jpg);"></div>
-    	<div class="one-half ftco-animate">
-        <div class="heading-section ftco-animate ">
-          <h2 class="mb-4"><span>We Are The Job Portal Agency</span></h2>
-        </div>
-        <div>
-  				<p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.</p>
-  			</div>
-    	</div>
-    </section>
-
-    <section class="ftco-section testimony-section">
-      <div class="container">
-        <div class="row justify-content-center mb-5 pb-3">
-          <div class="col-md-7 text-center heading-section ftco-animate">
-          	<span class="subheading">Testimonial</span>
-            <h2 class="mb-4"><span>Happy</span> Clients</h2>
-          </div>
-        </div>
-        <div class="row ftco-animate">
-          <div class="col-md-12">
-            <div class="carousel-testimony owl-carousel ftco-owl">
-              <div class="item">
-                <div class="testimony-wrap py-4 pb-5">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start" data-scrollax-parent="true">
+			<div class="col-md-8 ftco-animate text-center text-md-left mb-5" data-scrollax=" properties: { translateY: '70%' }">
+				<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>About</span></p>
+				<h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">About</h1> </div>
+		</div>
+	</div>
+</div>
+<section class="ftco-about d-md-flex">
+	<div class="one-half img" style="background-image: url('{% static 'images/571658cd2ec465a08e2dc2cf30258023.jpg' %}'); background-size: 800px 600px;"></div>
+	<div class="one-half ftco-animate">
+		<div class="heading-section ftco-animate ">
+			<h2 class="mb-4"><span>D's JobPortal</span></h2> </div>
+		<div>
+			<p>The labor market is brimming with qualified job seekers, everyone is competing for the same limited number of jobs, and the job market is filled with more and more job seekers every day. It is an understatement to say that the list of applicants for most new positions is competitive. Recruiters review thousands of applicants as thoroughly as possible. By researching their resumes, they are doing their best to use the power of the internet to fill their limited vacancies. Some jobs here become open and accessible even when you can't hear about him, and you face very difficult situations. Job seekers who use the tools and resources available on the D's portal website have found this to be their best secret to increase their chances of finding the job they deserve. Web Search Websites bring thousands of men and women together for the best job opportunities. D's portal gives you instant access to other premium jobs you expect to find on your job search website. The professions listed are very attractive due to the industries they work in (technical, healthcare, medical, business, finance, etc.) and high quality companies. This is a job that will help you start your career and secure the financial future you are pursuing.</p>
+		</div>
+	</div>
+</section>
+<section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url(images/bg_1.jpg);" data-stellar-background-ratio="0.5">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-10">
+				<div class="row">
+					<div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+						<div class="block-18 text-center">
+							<div class="text"> <strong class="number" data-number="{{ all_jobs }}">0</strong> <span>Jobs</span> </div>
+						</div>
+					</div>
+					<div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+						<div class="block-18 text-center">
+							<div class="text"> <strong class="number" data-number="{{ canidates }}">0</strong> <span>Members</span> </div>
+						</div>
+					</div>
+					<div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+						<div class="block-18 text-center">
+							<div class="text"> <strong class="number" data-number="{{ resumes }}">0</strong> <span>Resume</span> </div>
+						</div>
+					</div>
+					<div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
+						<div class="block-18 text-center">
+							<div class="text"> <strong class="number" data-number="{{employers}}">0</strong> <span>Company</span> </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="ftco-section testimony-section">
+	<div class="container">
+		<div class="row justify-content-center mb-5 pb-3">
+			<div class="col-md-7 text-center heading-section ftco-animate"> <span class="subheading">Testimonial</span>
+				<h2 class="mb-4"><span>Happy</span> Clients</h2> </div>
+		</div>
+		<div class="row ftco-animate">
+			<div class="col-md-12">
+				<div class="carousel-testimony owl-carousel ftco-owl">
+					<div class="item">
+						<div class="testimony-wrap py-4 pb-5">
+							<div class="user-img mb-4" style="background-image: url({% static 'images/download.jfif' %})"> <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Roger Scott</p>
-                    <span class="position">Marketing Manager</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap py-4 pb-5">
-                  <div class="user-img mb-4" style="background-image: url(images/person_2.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
+                    </span> </div>
+							<div class="text">
+								<p class="mb-4">“If you find our information to be helpful, write a review! Reviews help us to not only improve our products and services but also to let others know that we care about delivering the best quality.”</p>
+								<a href="{% url 'happy_blog:happyblog' %}"><button type="button" class="btn btn-outline-success">Happy Blog</button> </div></a>
+						</div>
+					</div>
+					{% for blog in blogs %}
+					<div class="item">
+						<div class="testimony-wrap py-4 pb-5">
+							<div class="user-img mb-4" style="background-image: url({{ blog.image.url}})"> <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Roger Scott</p>
-                    <span class="position">Interface Designer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap py-4 pb-5">
-                  <div class="user-img mb-4" style="background-image: url(images/person_3.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Roger Scott</p>
-                    <span class="position">UI Designer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap py-4 pb-5">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Roger Scott</p>
-                    <span class="position">Web Developer</span>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="testimony-wrap py-4 pb-5">
-                  <div class="user-img mb-4" style="background-image: url(images/person_1.jpg)">
-                    <span class="quote d-flex align-items-center justify-content-center">
-                      <i class="icon-quote-left"></i>
-                    </span>
-                  </div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-                    <p class="name">Roger Scott</p>
-                    <span class="position">System Analyst</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url(images/bg_1.jpg);" data-stellar-background-ratio="0.5">
-    	<div class="container">
-    		<div class="row justify-content-center">
-    			<div class="col-md-10">
-		    		<div class="row">
-		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-		            <div class="block-18 text-center">
-		              <div class="text">
-		                <strong class="number" data-number="1350000">0</strong>
-		                <span>Jobs</span>
-		              </div>
-		            </div>
-		          </div>
-		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-		            <div class="block-18 text-center">
-		              <div class="text">
-		                <strong class="number" data-number="40000">0</strong>
-		                <span>Members</span>
-		              </div>
-		            </div>
-		          </div>
-		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-		            <div class="block-18 text-center">
-		              <div class="text">
-		                <strong class="number" data-number="30000">0</strong>
-		                <span>Resume</span>
-		              </div>
-		            </div>
-		          </div>
-		          <div class="col-md-3 d-flex justify-content-center counter-wrap ftco-animate">
-		            <div class="block-18 text-center">
-		              <div class="text">
-		                <strong class="number" data-number="10500">0</strong>
-		                <span>Company</span>
-		              </div>
-		            </div>
-		          </div>
-		        </div>
-	        </div>
-        </div>
-    	</div>
-    </section>
+                    </span> </div>
+							<div class="text">
+								<p class="mb-4">{{ blog.tweet|safe }}</p>
+								<p class="name">{{ blog.name }}</p> <span class="position">{{ blog.job_type }}</span> </div>
+						</div>
+					</div>
+					{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
 
 {% endblock %}

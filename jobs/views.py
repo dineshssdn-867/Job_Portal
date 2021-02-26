@@ -1,5 +1,4 @@
 from functools import lru_cache
-
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -7,23 +6,16 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from happy_blog.models import happy_blog
 from jobs.models import Job, Category
 from jobs.forms import CreateJob, ApplyJobForm, UpdateJobForm
 from users.models import Account, Profile
+from typing import Any, Dict, Tuple
 
 
-class CacheMixin(object):
-    cache_timeout = 60
-
-    def get_cache_timeout(self):
-        return self.cache_timeout
-
-    def dispatch(self, *args, **kwargs):
-        return cache_page(self.get_cache_timeout())(super(CacheMixin, self).dispatch)(*args, **kwargs)
-
-
-class HomeView(ListView, CacheMixin):
+# @method_decorator(cache_page(60 * 3), name='dispatch')
+class HomeView(ListView):
     cache_timeout = 1800
     template_name = 'jobs/index.html'
     model = Job
@@ -31,13 +23,14 @@ class HomeView(ListView, CacheMixin):
     paginate_by = 3
 
     @lru_cache(maxsize=None, typed=False)
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Dict[str, Any]) -> Dict[str, Any]:
         context = super(HomeView, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
-        context['all_jobs'] = Job.objects.all().count() * 1997
-        context['candidates'] = Account.objects.filter(is_employee=True).count() * 1555
-        context['resumes'] = Profile.objects.exclude(resume="").count() * 1479
-        context['employers'] = Account.objects.filter(is_employer=True).count() * 1235
+        context['all_jobs'] = Job.objects.all().count()
+        context['candidates'] = Account.objects.filter(is_employee=True).count()
+        context['resumes'] = Profile.objects.exclude(resume="").count()
+        context['employers'] = Account.objects.filter(is_employer=True).count()
+        context['blogs'] = happy_blog.objects.all()
         return context
 
 
@@ -50,7 +43,7 @@ class CreateJobView(SuccessMessageMixin, CreateView):
     success_url = '/'
     success_message = "Job has been posted"
 
-    def form_valid(self, form):
+    def form_valid(self, form: Dict[str, Any]) -> Dict[str, Any]:
         job = form.save(commit=False)
         job.employer = self.request.user
         job.save()
@@ -58,7 +51,7 @@ class CreateJobView(SuccessMessageMixin, CreateView):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
+# @method_decorator(cache_page(60 * 3), name='dispatch')
 class SingleJobView(UpdateView, SuccessMessageMixin):
     template_name = 'jobs/single.html'
     model = Job
@@ -67,7 +60,7 @@ class SingleJobView(UpdateView, SuccessMessageMixin):
     success_message = "You applied for this job"
 
     @lru_cache(maxsize=None, typed=False)
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Dict[str, Any]) -> Dict[str, Any]:
         context = super(SingleJobView, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['employee_applied'] = Job.objects.get(pk=self.kwargs['pk']).employee.all().filter(
@@ -78,9 +71,14 @@ class SingleJobView(UpdateView, SuccessMessageMixin):
             context['employer_id'] = Job.objects.get(pk=self.kwargs['pk']).employer_id
         except:
             pass
+        context['all_jobs'] = Job.objects.all().count()
+        context['candidates'] = Account.objects.filter(is_employee=True).count()
+        context['resumes'] = Profile.objects.exclude(resume="").count()
+        context['employers'] = Account.objects.filter(is_employer=True).count()
+        context['blogs'] = happy_blog.objects.all()
         return context
 
-    def form_valid(self, form):
+    def form_valid(self, form: Any) -> Dict[str, Any]:
         employee = self.request.user
         form.instance.employee.add(employee)
         form.save()
@@ -99,16 +97,21 @@ class CategoryDetailView(ListView):
     paginate_by = 2
 
     @lru_cache(maxsize=None, typed=False)
-    def get_queryset(self):
+    def get_queryset(self) -> Any:
         self.category = get_object_or_404(Category, pk=self.kwargs['pk'])
         return Job.objects.filter(category=self.category)
 
     @lru_cache(maxsize=None, typed=False)
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Dict[str, Any]) -> Dict[str, Any]:
         context = super(CategoryDetailView, self).get_context_data(**kwargs)
         self.category = get_object_or_404(Category, pk=self.kwargs['pk'])
         context['categories'] = Category.objects.all()
         context['category'] = self.category
+        context['all_jobs'] = Job.objects.all().count()
+        context['candidates'] = Account.objects.filter(is_employee=True).count()
+        context['resumes'] = Profile.objects.exclude(resume="").count()
+        context['employers'] = Account.objects.filter(is_employer=True).count()
+        context['blogs'] = happy_blog.objects.all()
         return context
 
 
@@ -121,7 +124,7 @@ class SearchJobView(ListView):
     paginate_by = 2
 
     @lru_cache(maxsize=None, typed=False)
-    def get_queryset(self):
+    def get_queryset(self) -> Dict[str, Any]:
         q1 = self.request.GET.get("job_title")
         q2 = self.request.GET.get("job_type")
         q3 = self.request.GET.get("job_location")
@@ -138,9 +141,14 @@ class SearchJobView(ListView):
         return Job.objects.all().order_by('-id')
 
     @lru_cache(maxsize=None, typed=False)
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Dict[str, Any]) -> Dict[str, Any]:
         context = super(SearchJobView, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        context['all_jobs'] = Job.objects.all().count()
+        context['candidates'] = Account.objects.filter(is_employee=True).count()
+        context['resumes'] = Profile.objects.exclude(resume="").count()
+        context['employers'] = Account.objects.filter(is_employer=True).count()
+        context['blogs'] = happy_blog.objects.all()
         return context
 
 
@@ -152,17 +160,17 @@ class UpdateJobView(SuccessMessageMixin, UpdateView):
     form_class = UpdateJobForm
     success_message = "You updated your job!"
 
-    def form_valid(self, form):
+    def form_valid(self, form: Any) -> Any:
         form.instance.employer = self.request.user
         return super(UpdateJobView, self).form_valid(form)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: Any, *args: Tuple[tuple], **kwargs: Dict[str, any]) -> Any:
         self.object = self.get_object()
         if self.object.employer != request.user:
             return HttpResponseRedirect('/')
         return super(UpdateJobView, self).get(request, *args, **kwargs)
 
-    def get_success_url(self):
+    def get_success_url(self) -> Any:
         return reverse('jobs:single_job', kwargs={"pk": self.object.pk, "slug": self.object.slug})
 
 
@@ -173,7 +181,7 @@ class DeleteJobView(SuccessMessageMixin, DeleteView):
     success_url = '/'
     template_name = 'jobs/delete.html'
 
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request: Any, *args: Tuple[tuple], **kwargs: Dict[str, any]) -> Any:
         self.object = self.get_object()
         if self.object.employer == request.user:
             self.object.delete()
@@ -181,7 +189,7 @@ class DeleteJobView(SuccessMessageMixin, DeleteView):
         else:
             return HttpResponseRedirect(self.success_url)
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request: Any, *args: Tuple[tuple], **kwargs: Dict[str, any]) -> Any:
         self.object = self.get_object()
         if self.object.employer != request.user:
             return HttpResponseRedirect('/')

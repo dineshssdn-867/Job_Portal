@@ -7,14 +7,14 @@ from django.dispatch import receiver
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from ckeditor.fields import RichTextField
-
+from typing import Dict, Any, Tuple
 from jobs.models import Job
 
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, email, password, **extra_fields):
+    def _create_user(self, email: str, password: str, **extra_fields: Dict[str, Any]) -> Dict[str, Any]:
         if not email:
             raise ValueError('Your email is not correct')
         email = self.normalize_email(email)
@@ -23,11 +23,11 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, email: str, password: str = None, **extra_fields: Dict[str, Any]) -> Dict[str, Any]:
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, email: str, password: str = None, **extra_fields: Dict[str, Any]) -> Any:
         """Create and save a SuperUser with the given email and password."""
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -59,31 +59,31 @@ class Account(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _('users')
 
     @cached_property
-    def count_unread_messages(self):
+    def count_unread_messages(self) -> int:
         return self.invites.filter(unread=True).count()
 
     @cached_property
-    def get_profile_id(self):
+    def get_profile_id(self) -> int:
         return self.profile.id
 
     @cached_property
-    def unread_messages(self):
+    def unread_messages(self) -> int:
         return self.invites.filter(unread=True).values_list('job_id',flat=True)
 
 
 class Profile(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="profile")
-    image = models.ImageField(_('image'), upload_to="media/users", default="media/users/gsmarena_001.jpg")
+    image = models.ImageField(_('image'), upload_to="media/users", default="media/users/images.png")
     birth_day = models.DateField(_('birth_day'), default=None, blank=True, null=True)
     location = models.CharField(_('location'), max_length=100, blank=True)
     resume = RichTextField(_('Resume'), blank=True)
     company = models.CharField(_('company'), max_length=250, blank=True)
     wish_list = models.ManyToManyField(Job, default=None, blank=True, related_name="wish_list")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.user.first_name + " " + self.user.last_name + " " + self.user.email
 
-    def save(self, *args, **kwargs):
+    def save(self,  *args: Tuple[tuple], **kwargs: Dict[str, any]) -> Any:
         super(Profile, self).save(*args, **kwargs)
         img = Image.open(self.image)
         if img.height > 200 or img.width > 200:
@@ -93,12 +93,12 @@ class Profile(models.Model):
 
 
 @receiver(models.signals.post_save, sender=Account)
-def post_save_user_signal(sender, instance, created, **kwargs):
+def post_save_user_signal(sender: Any, instance: Any, created: Any, **kwargs: Dict[str, any]) -> Any:
     if created:
         instance.save()
 
 
-def create_user_profile(sender, instance, created, **kwargs):
+def create_user_profile(sender: Any, instance: Any, created: Any, **kwargs: Dict[str, any]) -> Any:
     if created:
         Profile.objects.create(user=instance)
 
@@ -113,5 +113,5 @@ class Invite(models.Model):
     message = RichTextField(blank=True)
     unread = models.BooleanField(default=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.job.title

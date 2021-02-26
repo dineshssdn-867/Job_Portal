@@ -12,6 +12,7 @@ urlpatterns = [
     path('password-change-done/', authviews.PasswordChangeDoneView.as_view(), name='password_change_done'),
     path('employee-detail/<int:job_id>/<int:employee_id>/', EmployeeProfileView.as_view(), name='employee_detail'),
     path('employer-jobs/', EmployerPostedJobsView.as_view(), name='employer_jobs'),
+    path('employee-jobs/', EmployeePostedJobsView.as_view(), name='employee_jobs'),
     path('employee-messages/<int:pk>/', EmployeeMessagesView.as_view(), name='employee_messages'),
     path('employee-display-messages/<int:pk>/', EmployeeDisplayMessages.as_view(), name='employee_display_messages'),
     path('add-wishlist/<int:pk>/', AddWishListView.as_view(), name='add_wishlist'),
