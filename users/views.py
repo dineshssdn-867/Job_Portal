@@ -126,7 +126,6 @@ class EmployeeDisplayMessages(DetailView):
     model = Invite
     template_name = 'users/employee-display-messages.html'
     context_object_name = 'invite'
-    print("Hello world")
 
     def get_queryset(self):
         invite = self.model.objects.filter(id=self.kwargs['pk'])
