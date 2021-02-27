@@ -2,9 +2,10 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from typing import Any
 
 
-def main():
+def main() -> Any:
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'job_portal.settings')
     try:
