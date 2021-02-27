@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
 			<div class="col-xl-10 ftco-animate mb-5 pb-5" data-scrollax=" properties: { translateY: '70%' }">
-				<p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We have <span class="number" data-number="850000">0</span> great job offers you deserve!</p>
+				<p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We have <span class="number" data-number="{{ all_jobs }}"></span> great job offers you deserve!</p>
 				<h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Your Dream <br><span>Job is Waiting</span></h1>
 				<div class="ftco-search">
 					<div class="row">
@@ -277,62 +277,22 @@
 				<h2><span>Recent</span> Blog</h2> </div>
 		</div>
 		<div class="row d-flex">
-			<div class="col-md-3 d-flex ftco-animate">
-				<div class="blog-entry align-self-stretch">
-					<a href="blog-single.html" class="block-20" style="background-image: url('{% static 'images/image_1.jpg' %}' %});"> </a>
-					<div class="text mt-3">
-						<div class="meta mb-2">
-							<div><a href="#">December 2, 2018</a></div>
-							<div><a href="#">Admin</a></div>
-							<div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-						</div>
-						<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-						<p></p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 d-flex ftco-animate">
-				<div class="blog-entry align-self-stretch">
-					<a href="blog-single.html" class="block-20" style="background-image: url('{% static 'images/image_2.jpg' %}' %});"> </a>
-					<div class="text mt-3">
-						<div class="meta mb-2">
-							<div><a href="#">December 2, 2018</a></div>
-							<div><a href="#">Admin</a></div>
-							<div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-						</div>
-						<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet nobis natus incidunt officia assumenda.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 d-flex ftco-animate">
-				<div class="blog-entry align-self-stretch">
-					<a href="blog-single.html" class="block-20" style="background-image: url('{% static 'images/image_3.jpg' %}' %});"> </a>
-					<div class="text mt-3">
-						<div class="meta mb-2">
-							<div><a href="#">December 2, 2018</a></div>
-							<div><a href="#">Admin</a></div>
-							<div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-						</div>
-						<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi obcaecati praesentium,</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 d-flex ftco-animate">
-				<div class="blog-entry align-self-stretch">
-					<a href="blog-single.html" class="block-20" style="background-image: url('{% static 'images/image_4.jpg' %}' %});"> </a>
-					<div class="text mt-3">
-						<div class="meta mb-2">
-							<div><a href="#">December 2, 2018</a></div>
-							<div><a href="#">Admin</a></div>
-							<div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-						</div>
-						<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a></h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor minima, dolores quis, dolorum accusamu</p>
-					</div>
-				</div>
-			</div>
+			{% for Trend_blog in Trend_blogs|slice:"4" %}
+          <div class="col-md-3 d-flex ftco-animate">
+            <div class="blog-entry align-self-stretch">
+              <a href="blog-single.html" class="block-20" style="background-image: url({{ Trend_blog.image.url }});">
+              </a>
+              <div class="text mt-3">
+              	<div class="meta mb-2">
+                  <div><a href="#">{{Trend_blog.name}}</a></div>
+                  <div><a href="#">{{ Trend_blog.date }}</a></div>
+                </div>
+                <h3 class="heading"><a href="#">{{ Trend_blog.title }}</a></h3>
+               <p>{{ Trend_blog.tweet|safe }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
 		</div>
 	</div>
 </section> {% endblock %}

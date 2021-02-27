@@ -4,11 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.generic import CreateView, UpdateView, DetailView, ListView
+from blog.models import blog
 from happy_blog.models import happy_blog
 from jobs.models import Category, Job
 from users.forms import *
@@ -93,7 +94,7 @@ class EmployeeProfileView(CreateView):
         return reverse('users:employer_jobs')
 
 
-# @method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 3), name='dispatch')
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
 class EmployerPostedJobsView(ListView):
     template_name = 'users/employer-posted-jobs.html'
@@ -113,6 +114,7 @@ class EmployerPostedJobsView(ListView):
         context['resumes'] = Profile.objects.exclude(resume="").count()
         context['employers'] = Account.objects.filter(is_employer=True).count()
         context['blogs'] = happy_blog.objects.all()
+        context['Trend_blogs'] = blog.objects.all()
         return context
 
 
@@ -225,4 +227,5 @@ class EmployeePostedJobsView(ListView):
         context['resumes'] = Profile.objects.exclude(resume="").count()
         context['employers'] = Account.objects.filter(is_employer=True).count()
         context['blogs'] = happy_blog.objects.all()
+        context['Trend_blogs'] = blog.objects.all()
         return context

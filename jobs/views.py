@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from blog.models import blog
 from happy_blog.models import happy_blog
 from jobs.models import Job, Category
 from jobs.forms import CreateJob, ApplyJobForm, UpdateJobForm
@@ -14,9 +15,8 @@ from users.models import Account, Profile
 from typing import Any, Dict, Tuple
 
 
-# @method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 3), name='dispatch')
 class HomeView(ListView):
-    cache_timeout = 1800
     template_name = 'jobs/index.html'
     model = Job
     context_object_name = 'jobs'
@@ -31,6 +31,7 @@ class HomeView(ListView):
         context['resumes'] = Profile.objects.exclude(resume="").count()
         context['employers'] = Account.objects.filter(is_employer=True).count()
         context['blogs'] = happy_blog.objects.all()
+        context['Trend_blogs'] = blog.objects.all()
         return context
 
 
@@ -51,7 +52,7 @@ class CreateJobView(SuccessMessageMixin, CreateView):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-# @method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 3), name='dispatch')
 class SingleJobView(UpdateView, SuccessMessageMixin):
     template_name = 'jobs/single.html'
     model = Job
@@ -76,6 +77,7 @@ class SingleJobView(UpdateView, SuccessMessageMixin):
         context['resumes'] = Profile.objects.exclude(resume="").count()
         context['employers'] = Account.objects.filter(is_employer=True).count()
         context['blogs'] = happy_blog.objects.all()
+        context['Trend_blogs'] = blog.objects.all()
         return context
 
     def form_valid(self, form: Any) -> Dict[str, Any]:
@@ -112,6 +114,7 @@ class CategoryDetailView(ListView):
         context['resumes'] = Profile.objects.exclude(resume="").count()
         context['employers'] = Account.objects.filter(is_employer=True).count()
         context['blogs'] = happy_blog.objects.all()
+        context['Trend_blogs'] = blog.objects.all()
         return context
 
 
@@ -149,6 +152,7 @@ class SearchJobView(ListView):
         context['resumes'] = Profile.objects.exclude(resume="").count()
         context['employers'] = Account.objects.filter(is_employer=True).count()
         context['blogs'] = happy_blog.objects.all()
+        context['Trend_blogs'] = blog.objects.all()
         return context
 
 
