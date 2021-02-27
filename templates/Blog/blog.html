@@ -1,0 +1,63 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+    <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start" data-scrollax-parent="true">
+          <div class="col-md-8 ftco-animate text-center text-md-left mb-5" data-scrollax=" properties: { translateY: '70%' }">
+          	<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Blog</span></p>
+            <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Blog</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section bg-light">
+      <div class="container">
+
+        <div class="row d-flex">
+          {% for blog in blogs %}
+          <div class="col-md-3 d-flex ftco-animate">
+            <div class="blog-entry align-self-stretch">
+              <a href="blog-single.html" class="block-20" style="background-image: url({{ blog.image.url }});">
+              </a>
+              <div class="text mt-3">
+              	<div class="meta mb-2">
+                  <div><a href="#">{{blog.name}}</a></div>
+                  <div><a href="#">{{ blog.date }}</a></div>
+                </div>
+                <h3 class="heading"><a href="#">{{ blog.title }}</a></h3>
+               <p>{{ blog.tweet|safe }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+          <div class="col-md-3 d-flex ftco-animate">
+            <div class="blog-entry align-self-stretch">
+              <a href="blog-single.html" class="block-20" style="background-image: url({% static 'images/download.jfif' %});">
+              </a>
+              <div class="text mt-3">
+              	<div class="meta mb-2">
+                  <div><a href="#">Admin</a></div>
+                </div>
+                <h3 class="heading"><a href="#">Add a Blog</a></h3>
+                <p>Blog posts allow you and your business to publish insights, thoughts, and stories on your website about any topic. They can help you boost traffic, brand awareness, credibility, conversions, and revenue.</p>
+               <p><a href="{% url 'blog:AddBlog' %}"><button type="button" class="btn btn-outline-success">Blog</button></a></p>
+              </div>
+            </div>
+                    </div>
+          </div>
+          <div class="row mt-5"> {% if is_paginated %}
+			<div class="col text-center">
+				<div class="block-27">
+					<ul> {% if page_obj.has_previous %}
+						<li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li> {% else %}
+						<li class="disabled"><span>&lt;</span></li> {% endif %} {% for i in paginator.page_range %} {% if page_obj.number == i %}
+						<li class="active"><span>{{i}}</span></li> {% else %}
+						<li><a href="?page={{ i }}">{{i}}</a></li> {% endif %} {% endfor %} {% if page_obj.has_next %}
+						<li><a href="?page={{ page_obj.next_page_number }}">></a></li> {% else %}
+						<li class="disabled"><span>&gt;</span></li> {% endif %} </ul>
+				</div>
+			</div> {% endif %} </div>
+      </div>
+    </section>
+{% endblock %}
