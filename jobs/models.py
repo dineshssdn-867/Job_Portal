@@ -1,5 +1,6 @@
-from ckeditor.fields import RichTextField
 from django.db import models
+from django_quill.fields import QuillField
+
 from job_portal import settings
 from django.template.defaultfilters import slugify
 from django.utils.functional import cached_property
@@ -34,7 +35,7 @@ class Job(models.Model):
     )
     job_type = models.CharField(max_length=30, blank=False, default=None, choices=CHOICES)
     location = models.CharField(max_length=200, blank=False, default=None)
-    description = RichTextField(blank=False, default=None)
+    description = QuillField(blank=False, default=None)
     publishing_date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(default=None, editable=False)
     employer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=2)

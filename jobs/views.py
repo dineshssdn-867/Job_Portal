@@ -15,8 +15,22 @@ from users.models import Account, Profile
 from typing import Any, Dict, Tuple
 
 
-@method_decorator(cache_page(60 * 3), name='dispatch')
-class HomeView(ListView):
+class CacheMixin(object):
+    cache_timeout = 60 * 30  # seconds
+
+    def get_cache_timeout(self):
+        return self.cache_timeout
+
+    def dispatch(self, *args, **kwargs):
+        if hasattr(self.request, 'user') and self.request.user.is_authenticated:
+            # Logged-in, return the page without caching.
+            return super().dispatch(*args, **kwargs)
+        else:
+            # Unauthenticated user; use caching.
+            return cache_page(self.get_cache_timeout())(super().dispatch)(*args, **kwargs)
+
+
+class HomeView(ListView, CacheMixin):
     template_name = 'jobs/index.html'
     model = Job
     context_object_name = 'jobs'
@@ -36,7 +50,7 @@ class HomeView(ListView):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 1), name='dispatch')
 class CreateJobView(SuccessMessageMixin, CreateView):
     model = Job
     template_name = 'jobs/create-jobs.html'
@@ -52,7 +66,6 @@ class CreateJobView(SuccessMessageMixin, CreateView):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
 class SingleJobView(UpdateView, SuccessMessageMixin):
     template_name = 'jobs/single.html'
     model = Job
@@ -91,7 +104,7 @@ class SingleJobView(UpdateView, SuccessMessageMixin):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 1), name='dispatch')
 class CategoryDetailView(ListView):
     model = Job
     template_name = 'jobs/Category-detail.html'
@@ -119,7 +132,7 @@ class CategoryDetailView(ListView):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 1), name='dispatch')
 class SearchJobView(ListView):
     model = Job
     template_name = 'jobs/search.html'
@@ -157,7 +170,7 @@ class SearchJobView(ListView):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
+#@method_decorator(cache_page(60 * 1), name='dispatch')
 class UpdateJobView(SuccessMessageMixin, UpdateView):
     model = Job
     template_name = 'jobs/update.html'
@@ -179,7 +192,7 @@ class UpdateJobView(SuccessMessageMixin, UpdateView):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 1), name='dispatch')
 class DeleteJobView(SuccessMessageMixin, DeleteView):
     model = Job
     success_url = '/'

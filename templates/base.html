@@ -1,27 +1,31 @@
-{% load static %}
+{% load static_push %}
+{% load cache %}
+{% load pwa %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<title>D's JobPortal</title>
 	<meta charset="utf-8">
-	<link rel="icon" href="{% static 'images/ada0fc233ce1e28a52a90c8d53b4a35e.png' %}" type="image/x-icon">
+	{% progressive_web_app_meta %}
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900" rel="stylesheet">
-	<link rel="stylesheet" href="{% static 'css/open-iconic-bootstrap.min.css' %}">
-	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
-	<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-	<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
-	<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
-	<link rel="stylesheet" href="{% static 'css/aos.css' %}">
-	<link rel="stylesheet" href="{% static 'css/ionicons.min.css' %}">
-	<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
-	<link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
-	<link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
-	<link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
-	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<meta name="Description" content="An online web page is a modern term for a job portal, also known as a career portal, which helps applicants find jobs and employers to find suitable applicants.">
+	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900">
+	<link rel="stylesheet" href="{% static_push 'css/open-iconic-bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/animate.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/owl.theme.default.min.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/magnific-popup.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/aos.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/ionicons.min.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/bootstrap-datepicker.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/jquery.timepicker.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/flaticon.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/icomoon.css' %}">
+	<link rel="stylesheet" href="{% static_push 'css/style.css' %}">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
+
+
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	<div class="container"> <a class="navbar-brand" href="{% url 'jobs:home' %}">D's JobPortal</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation"> <span class="oi oi-menu"></span> Menu </button>
@@ -29,6 +33,7 @@
 			<ul class="navbar-nav ml-auto"> {% if user.is_authenticated and user.is_employee %}
 				<div class="btn-group">
 					<button type="button" class="btn btn-outline-primary dropdown-toggle nav-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{user.first_name}} </button>
+					{% if user.given_name and user.is_employee  %}<button type="button" class="btn btn-outline-primary dropdown-toggle nav-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{user.given_name}} </button>{% endif %}
 					<div class="dropdown-menu"> <a class="dropdown-item" href="{% url 'users:employee_jobs' %}">My Jobs</a> <a class="dropdown-item" href="{% url 'users:my_wish_list' pk=user.id %}">My Wishlist</a> <a class="dropdown-item" href="{% url 'users:employee_messages' pk=user.pk  %}">You have {{user.count_unread_messages }} message(s) </a> {% if user.get_profile_id %} <a class="dropdown-item" href="{% url 'users:update' pk=user.get_profile_id %}">Update Profile</a> {% endif %} <a class="dropdown-item" href="{% url 'users:password_change' %}">Change Password</a>
 						<div class="dropdown-divider"></div> <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a> </div>
 				</div> {% endif %} {% if user.is_authenticated and user.is_employer %}
@@ -48,6 +53,7 @@
 		</div>
 	</div>
 </nav> {% block content %} {% endblock %}
+{% cache 5000 footer_1 %}
 <footer class="ftco-footer ftco-bg-dark ftco-section">
 	<div class="container">
 		<div class="row mb-5">
@@ -73,6 +79,7 @@
 					</ul>
 				</div>
 			</div>
+			{% endcache %}
 			<div class="col-md">
 				<div class="ftco-footer-widget mb-4 ml-md-4">
 					<h2 class="ftco-heading-2">Workers</h2>
@@ -86,13 +93,14 @@
 					</ul>
 				</div>
 			</div>
+			{% cache 5000 footer_2 %}
 			<div class="col-md">
 				<div class="ftco-footer-widget mb-4">
 					<h2 class="ftco-heading-2">Have a Questions?</h2>
 					<div class="block-23 mb-3">
-						<li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-						<li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-						<li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+						<li><span class="icon icon-map-marker"></span><span class="text">Under Development</span></li>
+						<li><a href="#"><span class="icon icon-phone"></span><span class="text">Under Development</span></a></li>
+						<li><a href="#"><span class="icon icon-envelope"></span><span class="text">Under Development</span></a></li>
 						</ul>
 					</div>
 				</div>
@@ -110,24 +118,24 @@
 		<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" />
 	</svg>
 </div>
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
-<script src="{% static 'js/popper.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
-<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
-<script src="{% static 'js/jquery.stellar.min.js' %}"></script>
-<script src="{% static 'js/owl.carousel.min.js' %}"></script>
-<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-<script src="{% static 'js/aos.js' %}"></script>
-<script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
-<script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+<script src="{% static_push 'js/jquery.min.js' %}"></script>
+<script src="{% static_push 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+<script src="{% static_push 'js/popper.min.js' %}"></script>
+<script src="{% static_push 'js/bootstrap.min.js' %}"></script>
+<script src="{% static_push 'js/jquery.easing.1.3.js' %}"></script>
+<script src="{% static_push 'js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static_push 'js/jquery.stellar.min.js' %}"></script>
+<script src="{% static_push 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static_push 'js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static_push 'js/aos.js' %}"></script>
+<script src="{% static_push 'js/jquery.animateNumber.min.js' %}"></script>
+<script src="{% static_push 'js/bootstrap-datepicker.js' %}"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
-<script src="{% static 'js/scrollax.min.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy5tNQW8jP_DIzAPDDPa2R7qN5RbfC0FM"></script>
-<script src="{% static 'js/google-map.js' %}"></script>
-<script src="{% static 'js/main.js' %}"></script> {% if user.is_authenticated and user.is_employee %}
-<script src="{% static 'js/addorremove.js' %}"></script> {% else %}
-<script src="{% static 'js/addorremove2.js' %}"></script> {% endif %}
+<script src="{% static_push 'js/scrollax.min.js' %}"></script>
+<script src="{% static_push 'js/main.js' %}"></script>
+{% endcache %}
+{% if user.is_authenticated and user.is_employee %}
+<script src="{% static_push 'js/addorremove.js' %}"></script> {% else %}
+<script src="{% static_push 'js/addorremove2.js' %}"></script> {% endif %}
 
 </html>

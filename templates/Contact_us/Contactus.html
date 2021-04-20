@@ -1,11 +1,11 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static_push  %} {% block content %}{% load cache %}{% cache None contactus %}
 
-    <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+    <div class="hero-wrap js-fullheight" style="background-image: url('{% static_push 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start" data-scrollax-parent="true">
           <div class="col-md-8 ftco-animate text-center text-md-left mb-5" data-scrollax=" properties: { translateY: '70%' }">
-          	<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Contact</span></p>
+          	<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="{% url 'jobs:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Contact</span></p>
             <h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Contact Us</h1>
           </div>
         </div>
@@ -20,18 +20,19 @@
           </div>
           <div class="w-100"></div>
           <div class="col-md-3">
-            <p><span>Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
+            <p><span>Address:</span> Under Development</p>
           </div>
           <div class="col-md-3">
-            <p><span>Phone:</span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
+            <p><span>Phone:</span> <a href="tel://1234567920">Under Development</a></p>
           </div>
           <div class="col-md-3">
-            <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+            <p><span>Email:</span> <a href="mailto:info@yoursite.com">Under Development</a></p>
           </div>
           <div class="col-md-3">
-            <p><span>Website</span> <a href="#">yoursite.com</a></p>
+            <p><span>Website</span> <a href="#">Under Development</a></p>
           </div>
         </div>
+        {% endcache %}
         <div class="row block-9">
           <div class="col-md-6 order-md-last d-flex">
             <form action="#" class="bg-white p-5 contact-form">
@@ -55,7 +56,7 @@
           </div>
 
           <div class="col-md-6 d-flex">
-          	<div id="map" class="bg-white"></div>
+
           </div>
         </div>
       </div>
