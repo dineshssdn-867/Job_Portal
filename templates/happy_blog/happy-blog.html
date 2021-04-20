@@ -1,5 +1,5 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+{% extends 'base.html' %} {% load static_push %} {% block content %}{% load cache %}{% cache None happyblog %}
+<div class="hero-wrap js-fullheight" style="background-image: url('{% static_push 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
 	<div class="container">
 		<div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start" data-scrollax-parent="true">
@@ -9,6 +9,7 @@
 		</div>
 	</div>
 </div>
+{% endcache %}
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
 		<div class="row">
@@ -32,7 +33,7 @@
 						<div class="col-md-3">
 							<h3>Blog(500 characters)</h3></div>
 						<div class="col-md-3 mb-3 mb-md-0">
-							<label for="option-job-type-1"> {{ form.media }}{{ form.tweet }} </label>
+							<label for="option-job-type-1" id="textbox"> {{ form.media }}{{ form.tweet }} </label>
 						</div>
 					</div>
                     <div class="row form-group">
@@ -43,7 +44,7 @@
 						</div>
 					</div>
 					<div class="row form-group">
-						<div class="col-12 ml-5" style="padding-left:660px">
+						<div class="col-12 ml-5" id="send">
 							<input type="submit" value="Happy" class="btn btn-primary  py-2 px-5"> </div>
 					</div>
 				</form>

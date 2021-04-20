@@ -1,10 +1,12 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+{% extends 'base.html' %} {% block content %} {% load static_push %}{% load cache %}{% cache None index-1 %}
+<div class="hero-wrap js-fullheight" style="background-image: url('{% static_push 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
 	<div class="container">
 		<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
 			<div class="col-xl-10 ftco-animate mb-5 pb-5" data-scrollax=" properties: { translateY: '70%' }">
-				<p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We have <span class="number" data-number="850000">0</span> great job offers you deserve!</p>
+				{% endcache %}
+				<p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We have <span class="number" data-number="{{ all_jobs }}"></span> great job offers you deserve!</p>
+				{% cache None index-2 %}
 				<h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Your Dream <br><span>Job is Waiting</span></h1>
 				<div class="ftco-search">
 					<div class="row">
@@ -14,13 +16,13 @@
 						<div class="col-md-12 tab-wrap">
 							<div class="tab-content p-4" id="v-pills-tabContent">
 								<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-									<form action="{% url 'jobs:search' %}" class="search-job" method="get">
+									<form action="#" class="search-job">
 										<div class="row">
 											<div class="col-md">
 												<div class="form-group">
 													<div class="form-field">
 														<div class="icon"><span class="icon-briefcase"></span></div>
-														<input type="text" name="job_title" class="form-control" placeholder="eg. Garphic. Web Developer"> </div>
+														<input type="text" class="form-control" placeholder="eg. Garphic. Web Developer"> </div>
 												</div>
 											</div>
 											<div class="col-md">
@@ -28,12 +30,13 @@
 													<div class="form-field">
 														<div class="select-wrap">
 															<div class="icon"><span class="ion-ios-arrow-down"></span></div>
-															<select name="job_type" id="" class="form-control">
-																<option value="full_time">Full Time</option>
-																<option value="part_time">Part Time</option>
-																<option value="freelance">Freelance</option>
-																<option value="internship">Internship</option>
-																<option value="temporary">Temporary</option>
+															<select name="" id="" class="form-control">
+																<option value="">Category</option>
+																<option value="">Full Time</option>
+																<option value="">Part Time</option>
+																<option value="">Freelance</option>
+																<option value="">Internship</option>
+																<option value="">Temporary</option>
 															</select>
 														</div>
 													</div>
@@ -43,7 +46,7 @@
 												<div class="form-group">
 													<div class="form-field">
 														<div class="icon"><span class="icon-map-marker"></span></div>
-														<input type="text" name="job_location" class="form-control" placeholder="Location"> </div>
+														<input type="text" class="form-control" placeholder="Location"> </div>
 												</div>
 											</div>
 											<div class="col-md">
@@ -106,6 +109,7 @@
 		</div>
 	</div>
 </div>
+{% endcache %}
 <section class="ftco-section bg-light">
 	<div class="container">
 		<div class="row justify-content-center mb-5 pb-3"> {% if user.is_employee %}
@@ -117,7 +121,7 @@
 				<div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
 					<div class="mb-4 mb-md-0 mr-5">
 						<div class="job-post-item-header d-flex align-items-center"> {% if job.id in user.unread_messages %}
-							<h2 class="mr-3 text-black h4">{{ job.title }}</h2><img src="{% static 'images/4250762222240720795_800_x_800.png' %}" alt="unread" height="45" width="60" class="img-fluid"> {% else %}
+							<h2 class="mr-3 text-black h4">{{ job.title }}</h2><img src="{% static_push 'images/4250762222240720795_800_x_800.png' %}" alt="unread" height="45" width="60" class="img-fluid"> {% else %}
 							<h2 class="mr-3 text-black h4">{{ job.title }} </h2> {% endif %}
 							<div class="badge-wrap"> {% if job.job_type == 'full_time' %} <span class="bg-warning text-white badge py-2 px-3"> Full Time</span> {% elif job.job_type == 'part_time'%} <span class="bg-info text-white badge py-2 px-3"> Part Time</span> {% elif job.job_type == 'freelance'%} <span class="bg-secondary text-white badge py-2 px-3"> Freelance</span> {% elif job.job_type == 'internship'%} <span class="bg-primary text-white badge py-2 px-3"> Internship</span> {% elif job.job_type == 'temporary'%} <span class="bg-danger text-white badge py-2 px-3"> Temporary</span> {% endif %} </div>
 						</div>
@@ -188,7 +192,7 @@
 				<div class="carousel-testimony owl-carousel ftco-owl">
 					<div class="item">
 						<div class="testimony-wrap py-4 pb-5">
-							<div class="user-img mb-4" style="background-image: url({% static 'images/download.jfif' %})"> <span class="quote d-flex align-items-center justify-content-center">
+							<div class="user-img mb-4" style="background-image: url({% static_push 'images/download.jfif' %})"> <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span> </div>
 							<div class="text">
@@ -203,7 +207,7 @@
                       <i class="icon-quote-left"></i>
                     </span> </div>
 							<div class="text">
-								<p class="mb-4">{{ blog.tweet|safe }}</p>
+								<p class="mb-4">{{ blog.tweet.html|safe }}</p>
 								<p class="name">{{ blog.name }}</p> <span class="position">{{ blog.job_type }}</span> </div>
 						</div>
 					</div>

@@ -16,7 +16,7 @@ from users.forms import *
 from users.models import Profile, Account
 
 
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 class UserRegisterView(SuccessMessageMixin, CreateView):
     model = Account
     template_name = 'users/user-register.html'
@@ -36,17 +36,18 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
         return redirect(self.success_url)
 
 
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 class UserLoginView(LoginView):
     template_name = 'users/login.html'
 
 
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 class UserLogoutView(LogoutView):
     template_name = 'users/login.html'
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 class UserUpdateView(SuccessMessageMixin, UpdateView):
     model = Profile
     success_message = 'You updated your profile'
@@ -67,8 +68,8 @@ class UserUpdateView(SuccessMessageMixin, UpdateView):
         return reverse('users:update', kwargs={'pk': self.object.pk})
 
 
-@method_decorator(cache_page(60 * 3), name='dispatch')
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 class EmployeeProfileView(CreateView):
     template_name = 'users/employee-profile.html'
     model = Account
@@ -94,7 +95,7 @@ class EmployeeProfileView(CreateView):
         return reverse('users:employer_jobs')
 
 
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
 class EmployerPostedJobsView(ListView):
     template_name = 'users/employer-posted-jobs.html'
@@ -118,7 +119,7 @@ class EmployerPostedJobsView(ListView):
         return context
 
 
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
 class EmployeeMessagesView(ListView):
     template_name = 'users/employee-messages.html'
@@ -129,9 +130,20 @@ class EmployeeMessagesView(ListView):
     def get_queryset(self) -> Tuple[Tuple]:
         return Job.objects.filter(invites__isnull=False, invites__user_id=self.request.user).order_by('-invites')
 
+    @lru_cache(maxsize=None, typed=False)
+    def get_context_data(self, **kwargs: Dict[str, any]) -> Dict[str, Any]:
+        context = super(EmployeeMessagesView, self).get_context_data(**kwargs)
+        context['all_jobs'] = Job.objects.all().count()
+        context['candidates'] = Account.objects.filter(is_employee=True).count()
+        context['resumes'] = Profile.objects.exclude(resume="").count()
+        context['employers'] = Account.objects.filter(is_employer=True).count()
+        context['blogs'] = happy_blog.objects.all()
+        context['Trend_blogs'] = blog.objects.all()
+        return context
+
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 class EmployeeDisplayMessages(DetailView):
     model = Invite
     template_name = 'users/employee-display-messages.html'
@@ -150,7 +162,7 @@ class EmployeeDisplayMessages(DetailView):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 class AddWishListView(UpdateView):
     template_name = 'jobs/index.html'
     model = Profile
@@ -167,7 +179,7 @@ class AddWishListView(UpdateView):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 class RemoveFromWishListView(UpdateView):
     template_name = 'jobs/index.html'
     model = Profile
@@ -184,7 +196,7 @@ class RemoveFromWishListView(UpdateView):
 
 
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 class MyWishList(ListView):
     template_name = 'users/my-wish-list.html'
     context_object_name = 'jobs'
@@ -208,7 +220,7 @@ class MyWishList(ListView):
         return context
 
 
-@method_decorator(cache_page(60 * 3), name='dispatch')
+@method_decorator(cache_page(60 * 0.5), name='dispatch')
 @method_decorator(login_required(login_url='/users/login'), name='dispatch')
 class EmployeePostedJobsView(ListView):
     template_name = 'users/employee-posted-jobs.html'

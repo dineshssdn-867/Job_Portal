@@ -1,15 +1,13 @@
 from functools import lru_cache
 from typing import Dict, Any
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-from django.views.generic import ListView, TemplateView
+from django.views.generic import TemplateView
 from happy_blog.models import happy_blog
 from jobs.models import Job
+from jobs.views import CacheMixin
 from users.models import Account, Profile
 
 
-@method_decorator(cache_page(60 * 3), name='dispatch')
-class AboutUsView(TemplateView):
+class AboutUsView(TemplateView, CacheMixin):
     template_name = 'About_us/aboutus.html'
 
     @lru_cache(maxsize=None, typed=False)

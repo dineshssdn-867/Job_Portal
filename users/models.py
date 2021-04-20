@@ -6,8 +6,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from ckeditor.fields import RichTextField
 from typing import Dict, Any, Tuple
+
+
+from django_quill.fields import QuillField
+
 from jobs.models import Job
 
 
@@ -68,28 +71,20 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
     @cached_property
     def unread_messages(self) -> int:
-        return self.invites.filter(unread=True).values_list('job_id',flat=True)
+        return self.invites.filter(unread=True).values_list('job_id', flat=True)
 
 
 class Profile(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="profile")
-    image = models.ImageField(_('image'), upload_to="media/users", default="media/users/images.png")
+    image = models.ImageField(_('image'), upload_to="users/", default="job_portal/users/images_n40np7.png")
     birth_day = models.DateField(_('birth_day'), default=None, blank=True, null=True)
     location = models.CharField(_('location'), max_length=100, blank=True)
-    resume = RichTextField(_('Resume'), blank=True)
+    resume = QuillField(_('Resume'), blank=True)
     company = models.CharField(_('company'), max_length=250, blank=True)
     wish_list = models.ManyToManyField(Job, default=None, blank=True, related_name="wish_list")
 
     def __str__(self) -> str:
         return self.user.first_name + " " + self.user.last_name + " " + self.user.email
-
-    def save(self,  *args: Tuple[tuple], **kwargs: Dict[str, any]) -> Any:
-        super(Profile, self).save(*args, **kwargs)
-        img = Image.open(self.image)
-        if img.height > 200 or img.width > 200:
-            new_size = (200, 200)
-            img.thumbnail(new_size)
-            img.save(self.image.path)
 
 
 @receiver(models.signals.post_save, sender=Account)
@@ -110,7 +105,7 @@ class Invite(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="invites")
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="invites", default=1)
     date = models.DateField(default=None, blank=True, null=True)
-    message = RichTextField(blank=True)
+    message = QuillField(blank=True)
     unread = models.BooleanField(default=True)
 
     def __str__(self) -> str:

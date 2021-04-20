@@ -1,8 +1,6 @@
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
+from jobs.views import CacheMixin
 
 
-@method_decorator(cache_page(60 * 3), name='dispatch')
-class ContactUsView(TemplateView):
+class ContactUsView(TemplateView, CacheMixin):
     template_name = 'Contact_us/Contactus.html'

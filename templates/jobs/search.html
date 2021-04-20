@@ -1,10 +1,12 @@
-{% extends 'base.html' %} {% block content %} {% load static %}
-<div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+{% extends 'base.html' %} {% block content %} {% load static_push %}{% load cache %}{% cache None index-1 %}
+<div class="hero-wrap js-fullheight" style="background-image: url('{% static_push 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
 	<div class="container">
 		<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
 			<div class="col-xl-10 ftco-animate mb-5 pb-5" data-scrollax=" properties: { translateY: '70%' }">
+				{% endcache %}
 				<p class="mb-4 mt-5 pt-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">We have <span class="number" data-number="{{ all_jobs }}"></span> great job offers you deserve!</p>
+				{% cache None index-2 %}
 				<h1 class="mb-5" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Your Dream <br><span>Job is Waiting</span></h1>
 				<div class="ftco-search">
 					<div class="row">
@@ -14,13 +16,13 @@
 						<div class="col-md-12 tab-wrap">
 							<div class="tab-content p-4" id="v-pills-tabContent">
 								<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-									<form action="{% url 'jobs:search' %}" class="search-job" method="get">
+									<form action="#" class="search-job">
 										<div class="row">
 											<div class="col-md">
 												<div class="form-group">
 													<div class="form-field">
 														<div class="icon"><span class="icon-briefcase"></span></div>
-														<input type="text" class="form-control" name="job_title" placeholder="eg. Garphic. Web Developer"> </div>
+														<input type="text" class="form-control" placeholder="eg. Garphic. Web Developer"> </div>
 												</div>
 											</div>
 											<div class="col-md">
@@ -28,13 +30,13 @@
 													<div class="form-field">
 														<div class="select-wrap">
 															<div class="icon"><span class="ion-ios-arrow-down"></span></div>
-															<select name="job_type" id="" class="form-control">
+															<select name="" id="" class="form-control">
 																<option value="">Category</option>
-																<option value="full time">Full Time</option>
-																<option value="part time">Part Time</option>
-																<option value="freelance">Freelance</option>
-																<option value="internship">Internship</option>
-																<option value="Temporary">Temporary</option>
+																<option value="">Full Time</option>
+																<option value="">Part Time</option>
+																<option value="">Freelance</option>
+																<option value="">Internship</option>
+																<option value="">Temporary</option>
 															</select>
 														</div>
 													</div>
@@ -44,7 +46,7 @@
 												<div class="form-group">
 													<div class="form-field">
 														<div class="icon"><span class="icon-map-marker"></span></div>
-														<input type="text" name="job_location" class="form-control" placeholder="Location"> </div>
+														<input type="text" class="form-control" placeholder="Location"> </div>
 												</div>
 											</div>
 											<div class="col-md">
@@ -60,7 +62,7 @@
 									<form action="#" class="search-job">
 										<div class="row">
 											<div class="col-md">
-												<div class="form-group">x
+												<div class="form-group">
 													<div class="form-field">
 														<div class="icon"><span class="icon-user"></span></div>
 														<input type="text" class="form-control" placeholder="eg. Adam Scott"> </div>
@@ -107,6 +109,9 @@
 		</div>
 	</div>
 </div>
+{% endcache %}
+<br><br>
+{% cache None index-3 %}
 <section class="ftco-section services-section bg-light">
 	<div class="container">
 		<div class="row d-flex">
@@ -115,7 +120,7 @@
 					<div class="icon"><span class="flaticon-resume"></span></div>
 					<div class="media-body">
 						<h3 class="heading mb-3">Search Millions of Jobs</h3>
-						<p>A small river named Duden flows by their place and supplies.</p>
+						<p>The most common way people give up their power is by thinking they don’t have any.</p>
 					</div>
 				</div>
 			</div>
@@ -124,7 +129,7 @@
 					<div class="icon"><span class="flaticon-collaboration"></span></div>
 					<div class="media-body">
 						<h3 class="heading mb-3">Easy To Manage Jobs</h3>
-						<p>A small river named Duden flows by their place and supplies.</p>
+						<p>The future depends on what you do today.</p>
 					</div>
 				</div>
 			</div>
@@ -133,7 +138,7 @@
 					<div class="icon"><span class="flaticon-promotions"></span></div>
 					<div class="media-body">
 						<h3 class="heading mb-3">Top Careers</h3>
-						<p>A small river named Duden flows by their place and supplies.</p>
+						<p>You only live once, but if you do it right, once is enough.</p>
 					</div>
 				</div>
 			</div>
@@ -142,13 +147,14 @@
 					<div class="icon"><span class="flaticon-employee"></span></div>
 					<div class="media-body">
 						<h3 class="heading mb-3">Search Expert Candidates</h3>
-						<p>A small river named Duden flows by their place and supplies.</p>
+						<p>There is no passion to be found playing small—in settling for a life that is less than the one you are capable of living.</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+{% endcache %}
 <section class="ftco-section ftco-counter">
 	<div class="container">
 		<div class="row justify-content-center mb-5 pb-3">
@@ -244,7 +250,7 @@
 				<div class="carousel-testimony owl-carousel ftco-owl">
 					<div class="item">
 						<div class="testimony-wrap py-4 pb-5">
-							<div class="user-img mb-4" style="background-image: url({% static 'images/download.jfif' %})"> <span class="quote d-flex align-items-center justify-content-center">
+							<div class="user-img mb-4" style="background-image: url({% static_push 'images/download.jfif' %})"> <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span> </div>
 							<div class="text">
@@ -259,7 +265,7 @@
                       <i class="icon-quote-left"></i>
                     </span> </div>
 							<div class="text">
-								<p class="mb-4">{{ blog.tweet|safe }}</p>
+								<p class="mb-4">{{ blog.tweet.html|safe }}</p>
 								<p class="name">{{ blog.name }}</p> <span class="position">{{ blog.job_type }}</span> </div>
 						</div>
 					</div>
@@ -288,7 +294,7 @@
                   <div><a href="#">{{ Trend_blog.date }}</a></div>
                 </div>
                 <h3 class="heading"><a href="#">{{ Trend_blog.title }}</a></h3>
-               <p>{{ Trend_blog.tweet|safe }}</p>
+               <p>{{ Trend_blog.tweet.html|safe }}</p>
               </div>
             </div>
           </div>

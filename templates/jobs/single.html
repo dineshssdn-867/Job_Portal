@@ -1,19 +1,21 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+{% extends 'base.html' %} {% load static_push %} {% block content %}{% load cache %}
+{% cache None single-job %}
+<div class="hero-wrap js-fullheight" style="background-image: url('{% static_push 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
 	<div class="container">
 		<div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start" data-scrollax-parent="true">
 			<div class="col-md-8 ftco-animate text-center text-md-left mb-5" data-scrollax=" properties: { translateY: '70%' }">
-				<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-3"><a href="blog.html">Blog <i class="ion-ios-arrow-forward"></i></a></span> <span>Single</span></p>
+				<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="{% url 'jobs:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-3"><a href="blog.html">Blog <i class="ion-ios-arrow-forward"></i></a></span> <span>Single</span></p>
 				<h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Job detail</h1> </div>
 		</div>
 	</div>
 </div>
+{% endcache %}
 <section class="ftco-section ftco-degree-bg">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 ftco-animate">
-				<h2 class="mb-3">{{job.title}}</h2> {{ job.description | safe }}
+				<h2 class="mb-3">{{job.title}}</h2> {{ job.description.html|safe }}
 				<hr>
 				<form method="post"> {% csrf_token %} {% if user.is_employee %} {% if employee_applied %}
 					<input type="submit" value="Applied" disabled class="btn btn-primary py-2 mr-1"> {% else %}

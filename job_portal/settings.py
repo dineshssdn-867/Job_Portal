@@ -10,16 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
-from pathlib import Path
+import django_heroku
+import cloudinary
+import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = 'z2bkcjy@g1=0eb01#z06p@1#52!0-9ah@260os(ptazx6+3d(5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -27,7 +29,7 @@ DEBUG = True
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['d-s-portal.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
@@ -38,14 +40,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms',
+    'django.contrib.sites',
     'jobs',
     'users',
-    'ckeditor',
+    'django_quill',
     'about_us',
     'happy_blog',
     'contactus',
     'blog',
+    'django_http2_push',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+    'cloudinary_storage',
+    'cloudinary',
+    'pwa'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -53,6 +63,7 @@ AUTH_USER_MODEL = 'users.Account'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -61,7 +72,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
     'django.middleware.gzip.GZipMiddleware',
+    'django_http2_push.middleware.PushHttp2Middleware',
+    'htmlmin.middleware.HtmlMinifyMiddleware',
 ]
+
+# AUTHENTICATION_BACKENDS = [
+#    'django.contrib.auth.backends.ModelBackend',
+#    'allauth.account.auth_backends.AuthenticationBackend',
+# ]
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
 ROOT_URLCONF = 'job_portal.urls'
 
@@ -76,6 +98,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -134,11 +158,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
-]
-MEDIA_URL = '/media/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+MEDIA_URL = '/job_portal/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'  # storing session using serializer
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  # This is for storing sessions in cache
@@ -153,10 +179,62 @@ CACHES = {
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/users/login/'
 
-CKEDITOR_CONFIGS = {
+QUILL_CONFIGS = {
     'default': {
-        'toolbar': 'full',
-        'height': 300,
-        'width': 635,
-    },
+        'theme': 'snow',
+        'modules': {
+            'syntax': True,
+            'toolbar': [
+                [
+                    {'font': []},
+                    {'header': [1, 2, False]},
+                    {'align': []},
+                    'bold', 'italic', 'underline', 'strike', 'blockquote',
+                    {'color': []},
+                    {'background': []},
+                ],
+                ['code-block', 'link'],
+                ['clean'],
+            ],
+        }
+    }
+
 }
+
+SITE_ID = 2
+PWA_APP_NAME = "D's job-portal"
+PWA_APP_DESCRIPTION = "An online web page is a modern term for a job portal, also known as a career portal, which helps applicants find jobs and employers to find suitable applicants."
+PWA_APP_BACKGROUND_COLOR = '#000000'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_ICONS = [
+    {'src': '/static/images/571658cd2ec465a08e2dc2cf30258023.png', 'sizes': '160x160', 'purpose': 'any maskable',
+     'src': '/static/images/571658cd2ec465a08e2dc2cf30258023.png', 'sizes': '512x512', 'purpose': 'any maskable'}
+]
+PWA_APP_ICONS_APPLE = [
+    {'src': '/static/images/ca86fb1a51f4761d1246518ee7640010.png', 'sizes': '160x160'}
+]
+PWA_APP_SPLASH_SCREEN = [{'src': '/static/images/571658cd2ec465a08e2dc2cf30258023.png',
+                          'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'}]
+PWA_APP_DIR = 'ltr'
+
+PWA_APP_LANG = 'en-US'
+PWA_APP_DEBUG_MODE = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dineshscloud',
+    'API_KEY': '858455229732434',
+    'API_SECRET': 'VTDlyF-OhpkS9hOvqxxBCMqGT3A',
+}
+django_heroku.settings(locals())

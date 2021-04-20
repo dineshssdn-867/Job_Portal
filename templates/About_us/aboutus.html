@@ -1,16 +1,16 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+{% extends 'base.html' %} {% load static_push  %} {% block content %}{% load cache %}{% cache None aboutus %}
+<div class="hero-wrap js-fullheight" style="background-image: url('{% static_push 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
 	<div class="container">
 		<div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start" data-scrollax-parent="true">
 			<div class="col-md-8 ftco-animate text-center text-md-left mb-5" data-scrollax=" properties: { translateY: '70%' }">
-				<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>About</span></p>
+				<p class="breadcrumbs" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><span class="mr-3"><a href="{% url 'jobs:home' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>About</span></p>
 				<h1 class="mb-3 bread" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">About</h1> </div>
 		</div>
 	</div>
 </div>
 <section class="ftco-about d-md-flex">
-	<div class="one-half img" style="background-image: url('{% static 'images/571658cd2ec465a08e2dc2cf30258023.jpg' %}'); background-size: 800px 600px;"></div>
+	<div class="one-half img" style="background-image: url('{% static_push 'images/571658cd2ec465a08e2dc2cf30258023.jpg' %}'); background-size: 800px 600px;"></div>
 	<div class="one-half ftco-animate">
 		<div class="heading-section ftco-animate ">
 			<h2 class="mb-4"><span>D's JobPortal</span></h2> </div>
@@ -19,7 +19,8 @@
 		</div>
 	</div>
 </section>
-<section class="ftco-section ftco-counter img" id="section-counter" style="background-image: url(images/bg_1.jpg);" data-stellar-background-ratio="0.5">
+{% endcache %}
+<section class="ftco-section ftco-counter img" id="section-counter" data-stellar-background-ratio="0.5">
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-10">
@@ -60,7 +61,7 @@
 				<div class="carousel-testimony owl-carousel ftco-owl">
 					<div class="item">
 						<div class="testimony-wrap py-4 pb-5">
-							<div class="user-img mb-4" style="background-image: url({% static 'images/download.jfif' %})"> <span class="quote d-flex align-items-center justify-content-center">
+							<div class="user-img mb-4" style="background-image: url({% static_push 'images/download.jfif' %})"> <span class="quote d-flex align-items-center justify-content-center">
                       <i class="icon-quote-left"></i>
                     </span> </div>
 							<div class="text">
@@ -75,7 +76,7 @@
                       <i class="icon-quote-left"></i>
                     </span> </div>
 							<div class="text">
-								<p class="mb-4">{{ blog.tweet|safe }}</p>
+								<p class="mb-4">{{ blog.tweet.html|safe }}</p>
 								<p class="name">{{ blog.name }}</p> <span class="position">{{ blog.job_type }}</span> </div>
 						</div>
 					</div>
@@ -86,6 +87,4 @@
 		</div>
 	</div>
 </section>
-
-
 {% endblock %}
