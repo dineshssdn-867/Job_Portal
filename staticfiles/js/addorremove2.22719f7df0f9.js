@@ -1,0 +1,1 @@
+function addorremove(e){e&&$.ajax({success:function(){Swal.mixin({toast:!0,position:"top",showConfirmButton:!0,timer:2e3,timerProgressBar:!0,onOpen:e=>{e.addEventListener("mouseenter",Swal.stopTimer),e.addEventListener("mouseleave",Swal.resumeTimer)}}).fire({icon:"error",title:"You are not an employee!"})}})}
