@@ -1,0 +1,14 @@
+Metadata-Version: 2.0
+Name: django-cloudflare-push
+Version: 0.2.0
+Summary: An piece of middleware that tells CloudFlare to HTTP/2 Push static files in a page to the client.
+Home-page: https://github.com/skorokithakis/django-cloudflare-push
+Author: Stavros Korokithakis
+Author-email: hi@stavros.io
+License: BSD
+Keywords: django,cloudflare,http2,push
+Platform: UNKNOWN
+
+A piece of middleware that lists all the static media in a Django page and adds a header that instructs CloudFlare to use HTTP/2's Push functionality to send the media to the client before the latter requests them.
+
+

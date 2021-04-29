@@ -10,8 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
-
-
 import django_heroku
 import cloudinary
 import cloudinary_storage
@@ -31,7 +29,7 @@ DEBUG = True
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['d-s-portal.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
@@ -83,9 +81,9 @@ MIDDLEWARE = [
 #    'allauth.account.auth_backends.AuthenticationBackend',
 # ]
 
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
-SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
 ROOT_URLCONF = 'job_portal.urls'
 
@@ -115,10 +113,10 @@ WSGI_APPLICATION = 'job_portal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'job_portal',
+        'NAME': 'my_job_portal',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
             "init_command": "SET foreign_key_checks = 0",
@@ -240,4 +238,3 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'VTDlyF-OhpkS9hOvqxxBCMqGT3A',
 }
 django_heroku.settings(locals())
-

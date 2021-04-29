@@ -1,0 +1,62 @@
+Metadata-Version: 2.1
+Name: django-http2-push
+Version: 0.0b2
+Summary: A simple way to add Header LINK
+Home-page: https://github.com/ricardochaves/django_http2_push
+Author: Ricardo Baltazar Chaves
+Author-email: ricardobchaves6@gmail.com
+License: MIT
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Framework :: Django :: 2.0
+Classifier: Framework :: Django :: 2.1
+Classifier: Environment :: Web Environment
+Classifier: Natural Language :: Portuguese (Brazilian)
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Middleware
+Classifier: Development Status :: 4 - Beta
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+
+# django_http2_push
+
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+
+A simple way to add Header LINK
+
+## Install
+
+```bash
+pip install django_http2_push
+```
+
+Update your `settings.py`
+
+```python
+INSTALLED_APPS = [
+    ...
+    "django_http2_push",
+    ...
+]
+
+MIDDLEWARE = [
+    ...
+    "django_http2_push.middleware.PushHttp2Middleware",
+    ...
+]
+```
+
+## Usage
+
+In the templates now use `static_push` instead of `static`.
+
+![template_html](docs/images/template_html.png)
+
+![header](docs/images/header_done.png)
+
+
+
