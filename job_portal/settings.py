@@ -147,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
@@ -233,8 +233,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dineshscloud',
-    'API_KEY': '858455229732434',
-    'API_SECRET': 'VTDlyF-OhpkS9hOvqxxBCMqGT3A',
+    'CLOUD_NAME': 'cloud_username',
+    'API_KEY': 'api_key',
+    'API_SECRET': 'api_secret',
 }
 django_heroku.settings(locals())
