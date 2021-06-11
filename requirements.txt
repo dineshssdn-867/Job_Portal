@@ -10,7 +10,7 @@ cloudinary==1.25.0
 cryptography==3.4.6
 defusedxml==0.7.1
 dj-database-url==0.5.0
-Django==3.1.10
+Django==3.1.12
 django-allauth==0.44.0
 django-ckeditor==6.0.0
 django-cloudflare-push==0.2.0
